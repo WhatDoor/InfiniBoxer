@@ -1,0 +1,169 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4uemo8mnuue4"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ac7xv"]
+[ext_resource type="PackedScene" uid="uid://wlwpi5y4b8eb" path="res://player.tscn" id="1_i8rfi"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ac7xv")
+
+[node name="player" parent="." instance=ExtResource("1_i8rfi")]
+position = Vector2(2357, 1371)
+
+[node name="general_spawner" type="Node" parent="."]
+
+[node name="GeneralSpawnTimer" type="Timer" parent="general_spawner"]
+wait_time = 10.0
+autostart = true
+
+[node name="EnemySpawn1" type="Marker2D" parent="general_spawner"]
+position = Vector2(3323, 9)
+
+[node name="EnemySpawn2" type="Marker2D" parent="general_spawner"]
+position = Vector2(3562, 2)
+
+[node name="EnemySpawn3" type="Marker2D" parent="general_spawner"]
+position = Vector2(3796, -11)
+
+[node name="EnemySpawn4" type="Marker2D" parent="general_spawner"]
+position = Vector2(4080, -7)
+
+[node name="EnemySpawn5" type="Marker2D" parent="general_spawner"]
+position = Vector2(4376, -15)
+
+[node name="EnemySpawn6" type="Marker2D" parent="general_spawner"]
+position = Vector2(4668, -7)
+
+[node name="EnemySpawn7" type="Marker2D" parent="general_spawner"]
+position = Vector2(4633, 1944)
+
+[node name="EnemySpawn8" type="Marker2D" parent="general_spawner"]
+position = Vector2(4637, 2200)
+
+[node name="EnemySpawn9" type="Marker2D" parent="general_spawner"]
+position = Vector2(4637, 2460)
+
+[node name="EnemySpawn10" type="Marker2D" parent="general_spawner"]
+position = Vector2(2218, 2661)
+
+[node name="EnemySpawn11" type="Marker2D" parent="general_spawner"]
+position = Vector2(1908, 2648)
+
+[node name="EnemySpawn12" type="Marker2D" parent="general_spawner"]
+position = Vector2(1584, 2664)
+
+[node name="EnemySpawn13" type="Marker2D" parent="general_spawner"]
+position = Vector2(1304, 2668)
+
+[node name="EnemySpawn14" type="Marker2D" parent="general_spawner"]
+position = Vector2(984, 2684)
+
+[node name="EnemySpawn15" type="Marker2D" parent="general_spawner"]
+position = Vector2(732, 2684)
+
+[node name="EnemySpawn16" type="Marker2D" parent="general_spawner"]
+position = Vector2(244, -11)
+
+[node name="EnemySpawn17" type="Marker2D" parent="general_spawner"]
+position = Vector2(18, 43)
+
+[node name="EnemySpawn18" type="Marker2D" parent="general_spawner"]
+position = Vector2(2, 383)
+
+[node name="EnemySpawn19" type="Marker2D" parent="general_spawner"]
+position = Vector2(396, 2668)
+
+[node name="EnemySpawn20" type="Marker2D" parent="general_spawner"]
+position = Vector2(4368, 2672)
+
+[node name="EnemySpawn21" type="Marker2D" parent="general_spawner"]
+position = Vector2(4058, 2659)
+
+[node name="EnemySpawn22" type="Marker2D" parent="general_spawner"]
+position = Vector2(3734, 2675)
+
+[node name="EnemySpawn23" type="Marker2D" parent="general_spawner"]
+position = Vector2(3454, 2679)
+
+[node name="EnemySpawn24" type="Marker2D" parent="general_spawner"]
+position = Vector2(3134, 2695)
+
+[node name="EnemySpawn25" type="Marker2D" parent="general_spawner"]
+position = Vector2(2882, 2695)
+
+[node name="EnemySpawn26" type="Marker2D" parent="general_spawner"]
+position = Vector2(2546, 2679)
+
+[node name="EnemySpawn27" type="Marker2D" parent="general_spawner"]
+position = Vector2(4644, 1141)
+
+[node name="EnemySpawn28" type="Marker2D" parent="general_spawner"]
+position = Vector2(4648, 1397)
+
+[node name="EnemySpawn29" type="Marker2D" parent="general_spawner"]
+position = Vector2(4648, 1657)
+
+[node name="EnemySpawn30" type="Marker2D" parent="general_spawner"]
+position = Vector2(4667, 315)
+
+[node name="EnemySpawn31" type="Marker2D" parent="general_spawner"]
+position = Vector2(4671, 571)
+
+[node name="EnemySpawn32" type="Marker2D" parent="general_spawner"]
+position = Vector2(4671, 831)
+
+[node name="EnemySpawn33" type="Marker2D" parent="general_spawner"]
+position = Vector2(2365, -32)
+
+[node name="EnemySpawn34" type="Marker2D" parent="general_spawner"]
+position = Vector2(2055, -45)
+
+[node name="EnemySpawn35" type="Marker2D" parent="general_spawner"]
+position = Vector2(1731, -29)
+
+[node name="EnemySpawn36" type="Marker2D" parent="general_spawner"]
+position = Vector2(1451, -25)
+
+[node name="EnemySpawn37" type="Marker2D" parent="general_spawner"]
+position = Vector2(1131, -9)
+
+[node name="EnemySpawn38" type="Marker2D" parent="general_spawner"]
+position = Vector2(879, -9)
+
+[node name="EnemySpawn39" type="Marker2D" parent="general_spawner"]
+position = Vector2(543, -25)
+
+[node name="EnemySpawn40" type="Marker2D" parent="general_spawner"]
+position = Vector2(3029, 2)
+
+[node name="EnemySpawn41" type="Marker2D" parent="general_spawner"]
+position = Vector2(2693, -14)
+
+[node name="EnemySpawn42" type="Marker2D" parent="general_spawner"]
+position = Vector2(-28, 2283)
+
+[node name="EnemySpawn43" type="Marker2D" parent="general_spawner"]
+position = Vector2(-24, 2539)
+
+[node name="EnemySpawn44" type="Marker2D" parent="general_spawner"]
+position = Vector2(123, 2663)
+
+[node name="EnemySpawn45" type="Marker2D" parent="general_spawner"]
+position = Vector2(-17, 1480)
+
+[node name="EnemySpawn46" type="Marker2D" parent="general_spawner"]
+position = Vector2(-13, 1736)
+
+[node name="EnemySpawn47" type="Marker2D" parent="general_spawner"]
+position = Vector2(-13, 1996)
+
+[node name="EnemySpawn48" type="Marker2D" parent="general_spawner"]
+position = Vector2(6, 654)
+
+[node name="EnemySpawn49" type="Marker2D" parent="general_spawner"]
+position = Vector2(10, 910)
+
+[node name="EnemySpawn50" type="Marker2D" parent="general_spawner"]
+position = Vector2(10, 1170)
+
+[connection signal="player_win" from="player" to="." method="_on_player_player_win"]
+[connection signal="timeout" from="general_spawner/GeneralSpawnTimer" to="." method="general_enemy_spawn_timer"]

@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://wlwpi5y4b8eb"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_c3sux"]
+[ext_resource type="Script" path="res://timer_label.gd" id="2_ndoar"]
+[ext_resource type="SpriteFrames" uid="uid://h12gvruhx67j" path="res://player_gloves.tres" id="3_b4afw"]
+[ext_resource type="Script" path="res://display_circle.gd" id="4_ap31q"]
+
+[sub_resource type="SystemFont" id="SystemFont_hf522"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_j487a"]
+font = SubResource("SystemFont_hf522")
+font_size = 12
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_trudo"]
+radius = 5.5
+height = 14.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m4i7b"]
+radius = 0.65
+height = 1.35
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7n845"]
+radius = 20.0
+
+[node name="player" type="CharacterBody2D"]
+scale = Vector2(6, 6)
+collision_mask = 2
+script = ExtResource("1_c3sux")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -125.0
+offset_top = -83.0
+offset_right = -62.0
+offset_bottom = -57.0
+text = "Survive: 300"
+label_settings = SubResource("LabelSettings_j487a")
+script = ExtResource("2_ndoar")
+
+[node name="Timer" type="Timer" parent="Label"]
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("3_b4afw")
+animation = &"run_down"
+
+[node name="player_hurtbox" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_trudo")
+
+[node name="player_glove_receipt" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="left_hand" type="CollisionShape2D" parent="player_glove_receipt"]
+position = Vector2(-6.667, 3.833)
+shape = SubResource("CapsuleShape2D_m4i7b")
+debug_color = Color(0.721569, 0, 0.286275, 0.419608)
+
+[node name="right_hand" type="CollisionShape2D" parent="player_glove_receipt"]
+position = Vector2(6.5, 3.833)
+shape = SubResource("CapsuleShape2D_m4i7b")
+debug_color = Color(0.721569, 0, 0.286275, 0.419608)
+
+[node name="catch_area" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="catch_area"]
+shape = SubResource("CircleShape2D_7n845")
+
+[node name="display_circle" type="Node2D" parent="catch_area"]
+script = ExtResource("4_ap31q")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="timeout" from="Label" to="." method="_on_label_timeout"]
+[connection signal="timeout" from="Label/Timer" to="Label" method="_on_timer_timeout"]
+[connection signal="area_entered" from="player_glove_receipt" to="." method="_on_player_glove_receipt_area_entered"]
+[connection signal="area_entered" from="catch_area" to="." method="_on_catch_glove_entered"]
+[connection signal="area_exited" from="catch_area" to="." method="_on_catch_glove_exited"]

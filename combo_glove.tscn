@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2lrp2crp5qxh"]
+
+[ext_resource type="PackedScene" uid="uid://ccc35dgq6vwxk" path="res://glove.tscn" id="1_4qddc"]
+[ext_resource type="Texture2D" uid="uid://f4b126my2lgf" path="res://sprites/combo_glove.png" id="2_27yvj"]
+[ext_resource type="Script" path="res://combo_glove.gd" id="2_jpynf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52n4j"]
+size = Vector2(15, 16)
+
+[node name="combo_glove" instance=ExtResource("1_4qddc")]
+script = ExtResource("2_jpynf")
+
+[node name="default_sprite" parent="." index="0"]
+texture = ExtResource("2_27yvj")
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_52n4j")

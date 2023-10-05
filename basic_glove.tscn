@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://dc0enof3a3mhn"]
+
+[ext_resource type="PackedScene" uid="uid://ccc35dgq6vwxk" path="res://glove.tscn" id="1_8khlv"]
+[ext_resource type="Script" path="res://basic_glove.gd" id="2_lvlh2"]
+[ext_resource type="Texture2D" uid="uid://dopalavj1utqw" path="res://sprites/glove.png" id="3_0uoo4"]
+[ext_resource type="Texture2D" uid="uid://cb0nxvnvs8sa8" path="res://sprites/glove_combo_opportunity.png" id="4_ul6xg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dk3cu"]
+size = Vector2(15, 16)
+
+[node name="basic_glove" instance=ExtResource("1_8khlv")]
+collision_mask = 12
+script = ExtResource("2_lvlh2")
+
+[node name="default_sprite" parent="." index="0"]
+texture = ExtResource("3_0uoo4")
+
+[node name="combo_sprite" type="Sprite2D" parent="." index="1"]
+visible = false
+scale = Vector2(-1, 1)
+texture = ExtResource("4_ul6xg")
+
+[node name="CollisionShape2D" parent="." index="2"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_dk3cu")
