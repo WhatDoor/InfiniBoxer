@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhcq7cluh7uam"]
+
+[ext_resource type="PackedScene" uid="uid://ccc35dgq6vwxk" path="res://glove.tscn" id="1_fjd6e"]
+[ext_resource type="Script" path="res://mega_hook.gd" id="2_bgiug"]
+[ext_resource type="Texture2D" uid="uid://f4b126my2lgf" path="res://sprites/combo_glove.png" id="2_nc2c5"]
+
+[node name="mega_hook" instance=ExtResource("1_fjd6e")]
+script = ExtResource("2_bgiug")
+
+[node name="default_sprite" parent="." index="0"]
+texture = ExtResource("2_nc2c5")
