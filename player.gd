@@ -6,7 +6,8 @@ signal player_win
 
 const glove_definitions = {
 	"basic": preload("res://basic_glove.tscn"),
-	"combo": preload("res://combo_glove.tscn")
+	"combo": preload("res://combo_glove.tscn"),
+	"mega": preload("res://mega_cross.tscn")
 }
 
 var gloves_in_catch_range = []
@@ -19,6 +20,7 @@ var gloves_thrown = {
 var glove_on_sprite_frame = load("res://player_gloves.tres")
 
 const SPEED = 300.0
+var combo_list = []
 
 func _physics_process(delta):
 	#if (Input.is_action_just_pressed("glove_toggle")):
@@ -72,7 +74,11 @@ func fire_glove(glove_handedness: String, target: Vector2):
 	
 	var glove_type = "basic"
 	if (gloves_in_catch_range.size() > 0):
-		glove_type = "combo"
+		combo_list.append(glove_handedness)
+		glove_type = combo_check()
+	else: 
+		#missed, so reset combo
+		combo_list = []
 	
 	if (!existing_glove): 
 		#create and fire a new one if there isnt one yet 
@@ -116,3 +122,16 @@ func _on_catch_glove_entered(glove: Area2D):
 func _on_catch_glove_exited(glove: Area2D):
 	if (glove.returning):
 		delete_glove_from_catch_list(glove)
+
+func combo_check():
+	#print(combo_list)
+	if (combo_list.size() >= 3):
+		var current_combo = combo_list.slice(combo_list.size() - 3).reduce(collect_current_combo, "")
+		print(current_combo)
+		if (current_combo == "leftleftright"):
+			return "mega"
+	
+	return "combo"
+
+func collect_current_combo(accum, current_string):
+	return accum + current_string

@@ -11,7 +11,7 @@ func _input(event):
 	# Mouse in viewport coordinates.	
 	if event is InputEventMouseButton and event.is_pressed():
 		if (event.button_index == MOUSE_BUTTON_LEFT):
-			player.fire_glove("left", event.position)
+			player.fire_glove("left",event.position)
 		if (event.button_index == MOUSE_BUTTON_RIGHT):
 			player.fire_glove("right", event.position)
 

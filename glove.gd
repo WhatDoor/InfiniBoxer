@@ -2,7 +2,6 @@ extends Area2D
 
 class_name Glove
 
-var raycasts: Array
 var default_sprite: Sprite2D
 
 var player: CharacterBody2D
@@ -19,7 +18,7 @@ var return_acceleration = 0.10
 
 var max_range = 70.0
 var damage = 5
-var momentum = 7
+var momentum = 4
 var push_strength = 1700
 
 var enemy_ignore_list = []
@@ -43,7 +42,7 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	
 	#Need to call these manually here instead of onready because onready is used when it enters the tree
 	#In this case, the children of these will inherit and first be created separately from the tree
-	raycasts = [$RayCast2D, $RayCast2D2, $RayCast2D3]
+	#raycasts = [$RayCast2D, $RayCast2D2, $RayCast2D3]
 	default_sprite = $default_sprite
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,23 +62,6 @@ func _process(delta):
 	else:
 		speed += ACCELERATION
 		var relative_attempted_position = Vector2(position.x + (direction.x * speed), position.y + (direction.y * speed))
-		#print(relative_attempted_position)
-		
-		#print(relative_distance)
-		for raycast in raycasts:
-			var relative_distance = relative_attempted_position.distance_to(raycast.position)
-			raycast.target_position = Vector2(0, -relative_distance)
-			raycast.force_raycast_update()
-		
-			if (raycast.is_colliding()):
-				var raycast_collision_point = raycast.get_collision_point()
-				relative_attempted_position = get_parent().to_local(raycast_collision_point)
-				#print("collision!")
-				#print(relative_attempted_position)
-				#relative_attempted_position.y += $CollisionShape2D.shape.size.y
-				position = relative_attempted_position
-				#get_tree().paused = true
-				break
 		
 		position = relative_attempted_position
 		
@@ -92,10 +74,6 @@ func hit_an_enemy(enemy: RigidBody2D):
 		enemy.take_damage(calculate_damage())
 		enemy.push_direction = get_parent().global_position.direction_to(enemy.position) * push_strength
 		enemy_ignore_list.append(enemy.get_instance_id())
-		
-		#also make raycasts ignore this enemy
-		for raycast in raycasts:
-			raycast.add_exception(enemy)
 
 func calculate_damage():
 	#The closer we are to max speed, the more damage we deal

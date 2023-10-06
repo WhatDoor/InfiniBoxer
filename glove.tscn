@@ -11,15 +11,3 @@ script = ExtResource("1_1ok1j")
 scale = Vector2(-1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(0, 8)
-collision_mask = 4
-
-[node name="RayCast2D2" type="RayCast2D" parent="."]
-position = Vector2(8, 8)
-collision_mask = 4
-
-[node name="RayCast2D3" type="RayCast2D" parent="."]
-position = Vector2(-7, 8)
-collision_mask = 4

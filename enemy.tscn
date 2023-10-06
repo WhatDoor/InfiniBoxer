@@ -74,5 +74,13 @@ debug_color = Color(0.380392, 0.611765, 0, 0.419608)
 wait_time = 0.5
 one_shot = true
 
+[node name="HP_bar" type="ProgressBar" parent="."]
+offset_left = -29.0
+offset_top = 32.0
+offset_right = 29.0
+offset_bottom = 36.0
+rounded = true
+show_percentage = false
+
 [connection signal="body_entered" from="hurtbox" to="." method="player_body_entered"]
 [connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]

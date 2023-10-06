@@ -4,6 +4,9 @@ signal player_hit
 signal died(RigidBody2D)
 
 @export var player: CharacterBody2D = null
+
+@onready var HP_bar: ProgressBar = $HP_bar
+
 const SPEED = 70
 var HP = 10
 const friction = 0.1 #reduce push direction by this much
@@ -12,7 +15,8 @@ var dead = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	HP_bar.max_value = HP
+	HP_bar.value = HP
 	
 func init(player_target: CharacterBody2D, startingPOS: Vector2):
 	player = player_target
@@ -37,6 +41,7 @@ func player_body_entered(body):
 func take_damage(dmg: int):
 	print(dmg)
 	HP -= dmg
+	HP_bar.value = HP
 	
 	if (HP <= 0):
 		$death_timer.start()
