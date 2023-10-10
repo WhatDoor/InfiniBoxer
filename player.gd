@@ -4,10 +4,14 @@ signal player_win
 
 @onready var _animated_sprite = $AnimatedSprite2D
 
+#Powers
+@export var dash_boots_enabled = false
+
 const glove_definitions = {
 	"basic": preload("res://basic_glove.tscn"),
 	"combo": preload("res://combo_glove.tscn"),
-	"mega": preload("res://mega_cross.tscn")
+	"mega_cross": preload("res://mega_cross.tscn"),
+	"mega_hook": preload("res://mega_hook.tscn")
 }
 
 var gloves_in_catch_range = []
@@ -19,8 +23,11 @@ var gloves_thrown = {
 
 var glove_on_sprite_frame = load("res://player_gloves.tres")
 
-const SPEED = 300.0
+const SPEED = 25000.0
 var combo_list = []
+var dashing = false
+var dashing_speed = 100000.0
+var dash_frames = 0
 
 func _physics_process(delta):
 	#if (Input.is_action_just_pressed("glove_toggle")):
@@ -51,13 +58,25 @@ func _physics_process(delta):
 		else:
 			animation_name += "up"
 
+	var move_speed = SPEED 
+	
+	if (dashing):
+		move_speed = dashing_speed
+		dash_frames += 1
+		
+		if (dash_frames > 6):
+			dashing = false
+			dash_frames = 0
+	
+	var move_amount = move_speed * delta
+	
+	
 	if direction_x != 0.0 || direction_y != 0.0:
-		velocity.x = direction_x * SPEED
-		velocity.y = direction_y * SPEED
+		velocity = Vector2(direction_x, direction_y) * move_amount
 		_animated_sprite.play(animation_name)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.y = move_toward(velocity.y, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, move_amount)
+		velocity.y = move_toward(velocity.y, 0, move_amount)
 		_animated_sprite.stop()
 
 	move_and_slide()
@@ -78,11 +97,11 @@ func fire_glove(glove_handedness: String, target: Vector2):
 		glove_type = combo_check()
 	else: 
 		#missed, so reset combo
-		combo_list = []
+		combo_list = [glove_handedness]
 	
 	if (!existing_glove): 
 		#create and fire a new one if there isnt one yet 
-		glove_starting_position = firing_hand.position + (target_direction * 15)
+		glove_starting_position = firing_hand.position
 	else:
 		#If already is one, recreate the glove at the appropriate distance	
 		var glove_distance = Vector2.ZERO.distance_to(existing_glove.position)
@@ -127,11 +146,17 @@ func combo_check():
 	#print(combo_list)
 	if (combo_list.size() >= 3):
 		var current_combo = combo_list.slice(combo_list.size() - 3).reduce(collect_current_combo, "")
-		print(current_combo)
 		if (current_combo == "leftleftright"):
-			return "mega"
-	
+			return "mega_cross"
+			
+		if (current_combo == "rightleftleft"):
+			return "mega_hook"
 	return "combo"
 
 func collect_current_combo(accum, current_string):
 	return accum + current_string
+
+func dash():
+	if (dash_boots_enabled):
+		print("dashing")
+		dashing = true

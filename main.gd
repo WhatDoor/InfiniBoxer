@@ -1,6 +1,7 @@
-extends Node
+extends Node2D
 
 @onready var player = $player
+@onready var dash_boots_item = $power_items/dash_boots
 
 var enemy = preload("res://enemy.tscn")
 
@@ -14,13 +15,18 @@ func _input(event):
 			player.fire_glove("left",event.position)
 		if (event.button_index == MOUSE_BUTTON_RIGHT):
 			player.fire_glove("right", event.position)
+	
+	if event is InputEventKey and event.pressed:
+		if (event.get_keycode() == 4194325): #shift
+			player.dash()
 
 func enemy_died(dead_enemy: RigidBody2D):
 	dead_enemy.queue_free()
 
 func player_hit():
-	player.queue_free()
-	get_tree().paused = true #Gameover
+	if (!player.dashing):
+		player.queue_free()
+		get_tree().paused = true #Gameover
 
 func general_enemy_spawn_timer():
 	var counter = 0
@@ -39,3 +45,7 @@ func general_enemy_spawn_timer():
 
 func _on_player_player_win():
 	get_tree().paused
+
+func _on_dash_boots_body_entered(body):
+	body.dash_boots_enabled = true
+	dash_boots_item.collected()
