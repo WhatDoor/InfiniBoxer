@@ -9,12 +9,12 @@ var direction: Vector2
 var handedness: String
 
 var speed = 0.0
-var max_speed = 12.0
-var ACCELERATION = 1.2
+var max_speed = 615.0
+var ACCELERATION = 15.0
 
 var returning = false
 var return_speed = 0.0
-var return_acceleration = 0.10
+var return_acceleration = 2.5
 
 var max_range = 70.0
 var damage = 5
@@ -53,15 +53,15 @@ func _process(delta):
 		set_collision_mask_value(3, false) #no longer detect enemies on the way back
 
 	if (returning):
-		#print(speed)
+		print(speed)
 		return_speed += return_acceleration
 
 		var return_position = player.find_child(handedness + "_hand").position
-		position = position.move_toward(return_position, return_speed)
+		position = position.move_toward(return_position, return_speed * delta)
 		#position = Vector2(position.x + (player.position.x * return_speed), position.y + (player.position.y * return_speed))
 	else:
 		speed += ACCELERATION
-		var relative_attempted_position = Vector2(position.x + (direction.x * speed), position.y + (direction.y * speed))
+		var relative_attempted_position = Vector2(position.x + (direction.x * speed * delta), position.y + (direction.y * speed * delta))
 		
 		position = relative_attempted_position
 		

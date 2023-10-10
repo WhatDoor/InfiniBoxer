@@ -70,7 +70,6 @@ func _physics_process(delta):
 	
 	var move_amount = move_speed * delta
 	
-	
 	if direction_x != 0.0 || direction_y != 0.0:
 		velocity = Vector2(direction_x, direction_y) * move_amount
 		_animated_sprite.play(animation_name)

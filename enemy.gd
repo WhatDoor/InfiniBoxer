@@ -39,7 +39,6 @@ func player_body_entered(body):
 		player_hit.emit()
 	
 func take_damage(dmg: int):
-	print(dmg)
 	HP -= dmg
 	HP_bar.value = HP
 	

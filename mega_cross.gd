@@ -5,12 +5,12 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	
 	#new variables
 	max_speed = 20
-	ACCELERATION = 2.5
+	ACCELERATION = 35.0
 	damage = 10
 	push_strength = 2700
 	momentum = 50
 	
-	return_acceleration = 0.075
+	return_acceleration = 2.0
 
 func calculate_damage():
 	return damage
