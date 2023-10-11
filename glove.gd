@@ -10,12 +10,12 @@ var handedness: String
 var real = true
 
 var speed = 0.0
-var max_speed = 615.0
-var ACCELERATION = 15.0
+var max_speed = 620.0
+var ACCELERATION = 45.0
 
 var returning = false
 var return_speed = 0.0
-var return_acceleration = 1.5
+var return_acceleration = 4.0
 
 var max_range = 70.0
 var damage = 5
@@ -46,8 +46,7 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	#raycasts = [$RayCast2D, $RayCast2D2, $RayCast2D3]
 	default_sprite = $default_sprite
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	#If the glove runs out of momentum OR reaches its max range
 	if (Vector2.ZERO.distance_to(position) > max_range || momentum <= 0):
 		returning = true

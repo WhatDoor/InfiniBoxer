@@ -10,7 +10,7 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	
 	#new variables
 	max_speed = 20
-	ACCELERATION = 1.0
+	ACCELERATION = 2.0
 	damage = 10
 	push_strength = 2700
 	momentum = 50
@@ -23,10 +23,10 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	
 	spin_angle = starting_angle
 	
-	return_acceleration = .5
+	return_acceleration = 1.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	var current_spin_angle_amount = abs(starting_angle - spin_angle)
 	
 	#If the glove runs out of momentum OR reaches its max range

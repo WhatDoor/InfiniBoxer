@@ -21,7 +21,7 @@ func _input(event):
 		if (event.get_keycode() == 4194325): #shift
 			player.dash()
 		if (event.get_keycode() == 69): #e as test key
-			player.machine_gun()
+			player.homing_fire()
 
 func enemy_died(dead_enemy: RigidBody2D):
 	dead_enemy.queue_free()
@@ -52,7 +52,6 @@ func _on_player_player_win():
 func _on_dash_boots_body_entered(body):
 	body.dash_boots_enabled = true
 	dash_boots_item.collected()
-
 
 func _on_machine_gun_body_entered(body):
 	body.machine_gun_enabled = true

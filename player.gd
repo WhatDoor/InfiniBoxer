@@ -2,11 +2,14 @@ extends CharacterBody2D
 
 signal player_win
 
+const screen_middle = Vector2(750, 500)
+
 @onready var _animated_sprite = $AnimatedSprite2D
 
 #Powers
 @export var dash_boots_enabled = false
 @export var machine_gun_enabled = false
+@export var homing_fire_enabled = true
 
 const glove_definitions = {
 	"basic": preload("res://basic_glove.tscn"),
@@ -14,6 +17,7 @@ const glove_definitions = {
 	"mega_cross": preload("res://mega_cross.tscn"),
 	"mega_hook": preload("res://mega_hook.tscn"),
 	"machine_gun": preload("res://machine_gun_glove.tscn"),
+	"homing": preload("res://homing_glove.tscn"),
 }
 
 var gloves_in_catch_range = []
@@ -37,24 +41,48 @@ var machine_gunning_time = 0
 var last_machine_gunning_time = -999
 var last_hand_thrown = "left"
 
+var homing_firing = false
+var homing_firing_time = 0
+var last_homing_firing_time = -999
+var homing_firing_last_hand_thrown = "left"
+
+var rng = RandomNumberGenerator.new()
+
 func _ready():
 	_animated_sprite.sprite_frames = glove_on_sprite_frame
 
 func _physics_process(delta):
 	#machine gun logic
 	if (machine_gunning and machine_gunning_time - last_machine_gunning_time > 0.2):
-		print("firing")
+		#print("firing")
 		last_hand_thrown = "right" if last_hand_thrown == "left" else "left"
 		fire_glove(last_hand_thrown, get_viewport().get_mouse_position(), "machine_gun", true)
 		last_machine_gunning_time = machine_gunning_time
 	
 	if (machine_gunning):
 		machine_gunning_time += delta
-		print(machine_gunning_time)
-		print(last_machine_gunning_time)
+		#print(machine_gunning_time)
+		#print(last_machine_gunning_time)
 		
 		if (machine_gunning_time > 6):
 			machine_gunning = false
+	
+	#homing fire logic
+	if (homing_firing and homing_firing_time - last_homing_firing_time > 0.4):
+		var random_target = Vector2(rng.randf_range(-1.0, 1.0), rng.randf_range(-1.0, 1.0)) + screen_middle
+		
+		#print("firing")
+		homing_firing_last_hand_thrown = "right" if homing_firing_last_hand_thrown == "left" else "left"
+		fire_glove(homing_firing_last_hand_thrown, random_target, "homing", true)
+		last_homing_firing_time = homing_firing_time
+	
+	if (homing_firing):
+		homing_firing_time += delta
+		#print(machine_gunning_time)
+		#print(last_machine_gunning_time)
+		
+		if (homing_firing_time > 4):
+			homing_firing = false
 	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -107,7 +135,7 @@ func fire_glove(glove_handedness: String, target: Vector2, forced_glove_type: St
 	var firing_hand = find_child(glove_handedness + "_hand")
 	
 	#starting at 750, 500 because the character is always in middle of screen. Might need to make this dynamic to screen size?
-	var target_direction = Vector2(750, 500).direction_to(target)
+	var target_direction = screen_middle.direction_to(target)
 	
 	var glove_type = "basic"
 	if (forced_glove_type):
@@ -136,7 +164,9 @@ func fire_glove(glove_handedness: String, target: Vector2, forced_glove_type: St
 	glove_node.z_index = 1
 	add_child(glove_node)
 	glove_node.connect("body_entered", Callable(glove_node, "hit_an_enemy"))
-	gloves_thrown[glove_handedness] = glove_node
+	
+	if (!forced_fire):
+		gloves_thrown[glove_handedness] = glove_node
 		
 func find_glove_with_matching_handedness(glove_handedness: String):
 	for glove in gloves_in_catch_range:
@@ -167,6 +197,16 @@ func _on_catch_glove_exited(glove: Area2D):
 
 func combo_check():
 	#print(combo_list)
+	if (combo_list.size() >= 4):
+		var current_combo = combo_list.slice(combo_list.size() - 4).reduce(collect_current_combo, "")
+		if (current_combo == "leftrightleftright"):
+			machine_gun()
+			return "combo"
+			
+		if (current_combo == "rightrightleftleft"):
+			homing_fire()
+			return "combo"
+			
 	if (combo_list.size() >= 3):
 		var current_combo = combo_list.slice(combo_list.size() - 3).reduce(collect_current_combo, "")
 		if (current_combo == "leftleftright"):
@@ -175,11 +215,6 @@ func combo_check():
 		if (current_combo == "rightleftleft"):
 			return "mega_hook"
 			
-	if (combo_list.size() >= 4):
-		var current_combo = combo_list.slice(combo_list.size() - 4).reduce(collect_current_combo, "")
-		if (current_combo == "leftrightleftright"):
-			machine_gun()
-			return "combo"
 	return "combo"
 
 func collect_current_combo(accum, current_string):
@@ -196,3 +231,10 @@ func machine_gun():
 		machine_gunning_time = 0
 		last_machine_gunning_time = -999
 		last_hand_thrown = "left"
+		
+func homing_fire():
+	if (homing_fire_enabled):
+		homing_firing = true
+		homing_firing_time = 0
+		last_homing_firing_time = -999
+		homing_firing_last_hand_thrown = "left"

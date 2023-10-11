@@ -9,13 +9,13 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	
 	#new variables
 	max_speed = 805
-	ACCELERATION = 35.0
+	ACCELERATION = 100.0
 	damage = 10
-	momentum = 8
+	momentum = 1
 	push_strength = 2700
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	#If the glove runs out of momentum OR reaches its max range
 	if (Vector2.ZERO.distance_to(position) > max_range || momentum <= 0):
 		queue_free()
