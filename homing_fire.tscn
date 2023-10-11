@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv0g0mo3ufk24"]
+
+[ext_resource type="PackedScene" uid="uid://dgpi024cnrraa" path="res://power_item.tscn" id="1_26r6r"]
+[ext_resource type="Texture2D" uid="uid://cqesmqrmrk2sc" path="res://sprites/homing_glove.png" id="2_rvla7"]
+
+[node name="homing_fire" instance=ExtResource("1_26r6r")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_rvla7")

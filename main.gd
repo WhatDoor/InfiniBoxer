@@ -3,6 +3,7 @@ extends Node2D
 @onready var player = $player
 @onready var dash_boots_item = $power_items/dash_boots
 @onready var machine_gun_item = $power_items/machine_gun
+@onready var homing_fire_item = $power_items/homing_fire
 
 var enemy = preload("res://enemy.tscn")
 
@@ -56,3 +57,7 @@ func _on_dash_boots_body_entered(body):
 func _on_machine_gun_body_entered(body):
 	body.machine_gun_enabled = true
 	machine_gun_item.collected()
+
+func _on_homing_fire_body_entered(body):
+	body.homing_fire_enabled = true
+	homing_fire_item.collected()

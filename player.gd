@@ -9,7 +9,7 @@ const screen_middle = Vector2(750, 500)
 #Powers
 @export var dash_boots_enabled = false
 @export var machine_gun_enabled = false
-@export var homing_fire_enabled = true
+@export var homing_fire_enabled = false
 
 const glove_definitions = {
 	"basic": preload("res://basic_glove.tscn"),
