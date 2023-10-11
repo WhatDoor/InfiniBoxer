@@ -7,6 +7,7 @@ var default_sprite: Sprite2D
 var player: CharacterBody2D
 var direction: Vector2
 var handedness: String
+var real = true
 
 var speed = 0.0
 var max_speed = 615.0
@@ -14,7 +15,7 @@ var ACCELERATION = 15.0
 
 var returning = false
 var return_speed = 0.0
-var return_acceleration = 2.5
+var return_acceleration = 1.5
 
 var max_range = 70.0
 var damage = 5
@@ -53,7 +54,7 @@ func _process(delta):
 		set_collision_mask_value(3, false) #no longer detect enemies on the way back
 
 	if (returning):
-		print(speed)
+		#print(speed)
 		return_speed += return_acceleration
 
 		var return_position = player.find_child(handedness + "_hand").position

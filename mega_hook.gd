@@ -23,7 +23,7 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	
 	spin_angle = starting_angle
 	
-	return_acceleration = 2.0
+	return_acceleration = .5
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

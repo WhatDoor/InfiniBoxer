@@ -10,7 +10,7 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	push_strength = 2700
 	momentum = 50
 	
-	return_acceleration = 2.0
+	return_acceleration = 1.0
 
 func calculate_damage():
 	return damage

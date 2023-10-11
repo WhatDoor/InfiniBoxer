@@ -6,12 +6,14 @@ signal player_win
 
 #Powers
 @export var dash_boots_enabled = false
+@export var machine_gun_enabled = false
 
 const glove_definitions = {
 	"basic": preload("res://basic_glove.tscn"),
 	"combo": preload("res://combo_glove.tscn"),
 	"mega_cross": preload("res://mega_cross.tscn"),
-	"mega_hook": preload("res://mega_hook.tscn")
+	"mega_hook": preload("res://mega_hook.tscn"),
+	"machine_gun": preload("res://machine_gun_glove.tscn"),
 }
 
 var gloves_in_catch_range = []
@@ -25,18 +27,34 @@ var glove_on_sprite_frame = load("res://player_gloves.tres")
 
 const SPEED = 25000.0
 var combo_list = []
+
 var dashing = false
 var dashing_speed = 100000.0
 var dash_frames = 0
 
-func _physics_process(delta):
-	#if (Input.is_action_just_pressed("glove_toggle")):
-	#	gloves_on = !gloves_on
-	
-	#if (gloves_on):
+var machine_gunning = false
+var machine_gunning_time = 0
+var last_machine_gunning_time = -999
+var last_hand_thrown = "left"
+
+func _ready():
 	_animated_sprite.sprite_frames = glove_on_sprite_frame
-	#else:
-	#	_animated_sprite.sprite_frames = glove_off_sprite_frame
+
+func _physics_process(delta):
+	#machine gun logic
+	if (machine_gunning and machine_gunning_time - last_machine_gunning_time > 0.2):
+		print("firing")
+		last_hand_thrown = "right" if last_hand_thrown == "left" else "left"
+		fire_glove(last_hand_thrown, get_viewport().get_mouse_position(), "machine_gun", true)
+		last_machine_gunning_time = machine_gunning_time
+	
+	if (machine_gunning):
+		machine_gunning_time += delta
+		print(machine_gunning_time)
+		print(last_machine_gunning_time)
+		
+		if (machine_gunning_time > 6):
+			machine_gunning = false
 	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -67,6 +85,7 @@ func _physics_process(delta):
 		if (dash_frames > 6):
 			dashing = false
 			dash_frames = 0
+			_animated_sprite.material.set("shader_parameter/white_tint", 0.0)
 	
 	var move_amount = move_speed * delta
 	
@@ -80,7 +99,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-func fire_glove(glove_handedness: String, target: Vector2):
+func fire_glove(glove_handedness: String, target: Vector2, forced_glove_type: String = "", forced_fire = false):
 	var existing_glove = gloves_thrown[glove_handedness]
 	var glove_node
 	var glove_starting_position
@@ -91,21 +110,26 @@ func fire_glove(glove_handedness: String, target: Vector2):
 	var target_direction = Vector2(750, 500).direction_to(target)
 	
 	var glove_type = "basic"
-	if (gloves_in_catch_range.size() > 0):
+	if (forced_glove_type):
+		glove_type = forced_glove_type
+	elif (gloves_in_catch_range.size() > 0):
 		combo_list.append(glove_handedness)
 		glove_type = combo_check()
 	else: 
 		#missed, so reset combo
 		combo_list = [glove_handedness]
 	
-	if (!existing_glove): 
-		#create and fire a new one if there isnt one yet 
+	if (forced_fire):
 		glove_starting_position = firing_hand.position
 	else:
-		#If already is one, recreate the glove at the appropriate distance	
-		var glove_distance = Vector2.ZERO.distance_to(existing_glove.position)
-		glove_starting_position = firing_hand.position + (target_direction * glove_distance)
-		existing_glove.free()
+		if (!existing_glove): 
+			#create and fire a new one if there isnt one yet 
+			glove_starting_position = firing_hand.position
+		else:
+			#If already is one, recreate the glove at the appropriate distance	
+			var glove_distance = Vector2.ZERO.distance_to(existing_glove.position)
+			glove_starting_position = firing_hand.position + (target_direction * glove_distance)
+			existing_glove.free()
 		
 	glove_node = glove_definitions[glove_type].instantiate()
 	glove_node.init(self, glove_starting_position, target_direction, glove_handedness)
@@ -134,11 +158,11 @@ func _on_label_timeout():
 	player_win.emit()
 
 func _on_catch_glove_entered(glove: Area2D):
-	if (glove.returning):
+	if (glove.returning and glove.real):
 		gloves_in_catch_range.append(glove)
 	
 func _on_catch_glove_exited(glove: Area2D):
-	if (glove.returning):
+	if (glove.returning and glove.real):
 		delete_glove_from_catch_list(glove)
 
 func combo_check():
@@ -150,6 +174,12 @@ func combo_check():
 			
 		if (current_combo == "rightleftleft"):
 			return "mega_hook"
+			
+	if (combo_list.size() >= 4):
+		var current_combo = combo_list.slice(combo_list.size() - 4).reduce(collect_current_combo, "")
+		if (current_combo == "leftrightleftright"):
+			machine_gun()
+			return "combo"
 	return "combo"
 
 func collect_current_combo(accum, current_string):
@@ -157,5 +187,12 @@ func collect_current_combo(accum, current_string):
 
 func dash():
 	if (dash_boots_enabled):
-		print("dashing")
 		dashing = true
+		_animated_sprite.material.set("shader_parameter/white_tint", -0.2)
+		
+func machine_gun():
+	if (machine_gun_enabled):
+		machine_gunning = true
+		machine_gunning_time = 0
+		last_machine_gunning_time = -999
+		last_hand_thrown = "left"

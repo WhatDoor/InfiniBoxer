@@ -7,5 +7,5 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	max_speed = 805
 	ACCELERATION = 35.0
 	damage = 10
-	momentum = 8
+	momentum = 1
 	push_strength = 2700

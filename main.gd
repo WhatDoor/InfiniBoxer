@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var player = $player
 @onready var dash_boots_item = $power_items/dash_boots
+@onready var machine_gun_item = $power_items/machine_gun
 
 var enemy = preload("res://enemy.tscn")
 
@@ -19,6 +20,8 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		if (event.get_keycode() == 4194325): #shift
 			player.dash()
+		if (event.get_keycode() == 69): #e as test key
+			player.machine_gun()
 
 func enemy_died(dead_enemy: RigidBody2D):
 	dead_enemy.queue_free()
@@ -49,3 +52,8 @@ func _on_player_player_win():
 func _on_dash_boots_body_entered(body):
 	body.dash_boots_enabled = true
 	dash_boots_item.collected()
+
+
+func _on_machine_gun_body_entered(body):
+	body.machine_gun_enabled = true
+	machine_gun_item.collected()

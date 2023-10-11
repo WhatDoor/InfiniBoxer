@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://wlwpi5y4b8eb"]
+[gd_scene load_steps=12 format=3 uid="uid://wlwpi5y4b8eb"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_c3sux"]
 [ext_resource type="Script" path="res://timer_label.gd" id="2_ndoar"]
 [ext_resource type="SpriteFrames" uid="uid://h12gvruhx67j" path="res://player_gloves.tres" id="3_b4afw"]
 [ext_resource type="Script" path="res://display_circle.gd" id="4_ap31q"]
+[ext_resource type="Shader" path="res://player.gdshader" id="5_jfvbe"]
 
 [sub_resource type="SystemFont" id="SystemFont_hf522"]
 subpixel_positioning = 0
@@ -11,6 +12,10 @@ subpixel_positioning = 0
 [sub_resource type="LabelSettings" id="LabelSettings_j487a"]
 font = SubResource("SystemFont_hf522")
 font_size = 12
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5fsbd"]
+shader = ExtResource("5_jfvbe")
+shader_parameter/white_tint = 0.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_trudo"]
 radius = 4.545
@@ -43,6 +48,7 @@ script = ExtResource("2_ndoar")
 autostart = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_5fsbd")
 sprite_frames = ExtResource("3_b4afw")
 animation = &"run_down"
 
@@ -57,12 +63,12 @@ collision_mask = 2
 monitorable = false
 
 [node name="left_hand" type="CollisionShape2D" parent="player_glove_receipt"]
-position = Vector2(-6.667, 3.833)
+position = Vector2(-2.052, 3.833)
 shape = SubResource("CapsuleShape2D_m4i7b")
 debug_color = Color(0.721569, 0, 0.286275, 0.419608)
 
 [node name="right_hand" type="CollisionShape2D" parent="player_glove_receipt"]
-position = Vector2(6.5, 3.833)
+position = Vector2(1.895, 3.833)
 shape = SubResource("CapsuleShape2D_m4i7b")
 debug_color = Color(0.721569, 0, 0.286275, 0.419608)
 

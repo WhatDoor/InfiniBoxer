@@ -23,7 +23,7 @@ func init(player_target: CharacterBody2D, startingPOS: Vector2):
 	position = startingPOS
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 #Better to interact with physics forces as it then allows the directly affected body to interact with other bodies
@@ -34,7 +34,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D):
 	state.linear_velocity = move_to_player + push_direction
 	push_direction = push_direction * (1 - friction)
 
-func player_body_entered(body):
+func player_body_entered(_body):
 	if (!dead):
 		player_hit.emit()
 	

@@ -9,6 +9,6 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	if (handedness == "right"):
 		$combo_sprite.scale.x = 1
 
-func in_catch_range(catch_area: Area2D):
+func in_catch_range(_catch_area: Area2D):
 	if (returning):
 		combo_opportunity_sprite.visible = true
