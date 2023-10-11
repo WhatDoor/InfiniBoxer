@@ -1,0 +1,26 @@
+[gd_scene load_steps=7 format=3 uid="uid://d1cemijwmm8nw"]
+
+[ext_resource type="PackedScene" uid="uid://ccc35dgq6vwxk" path="res://glove.tscn" id="1_3xu1h"]
+[ext_resource type="Script" path="res://machine_gun_glove.gd" id="2_1ice2"]
+[ext_resource type="Texture2D" uid="uid://dvds1ahuea7qc" path="res://combo_glove.png" id="2_s37cx"]
+[ext_resource type="Shader" path="res://player.gdshader" id="3_vagu0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ns1ds"]
+shader = ExtResource("3_vagu0")
+shader_parameter/white_tint = -0.6
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fespy"]
+size = Vector2(15, 16)
+
+[node name="machine_gun_glove" instance=ExtResource("1_3xu1h")]
+scale = Vector2(1.5, 1.5)
+script = ExtResource("2_1ice2")
+
+[node name="default_sprite" parent="." index="0"]
+z_index = -1
+material = SubResource("ShaderMaterial_ns1ds")
+texture = ExtResource("2_s37cx")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_fespy")

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7d83niyh4f86"]
+
+[ext_resource type="PackedScene" uid="uid://dgpi024cnrraa" path="res://power_item.tscn" id="1_67u0n"]
+[ext_resource type="Texture2D" uid="uid://dmhp4enufbv8x" path="res://sprites/machine_gun.png" id="2_no27l"]
+
+[node name="machine_gun" instance=ExtResource("1_67u0n")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_no27l")
