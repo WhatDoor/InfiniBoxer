@@ -7,6 +7,14 @@ extends Node2D
 
 var enemy = preload("res://enemy.tscn")
 
+var enemies = [
+	preload("res://green_slime.tscn"),
+	#preload("res://blue_slime.tscn"),
+	#preload("res://black_slime.tscn"),
+	#preload("res://purple_slime.tscn"),
+	#preload("res://red_slime.tscn"),
+]
+
 func _ready():
 	general_enemy_spawn_timer() #do first wave as game starts
 

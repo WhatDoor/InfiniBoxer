@@ -45,7 +45,7 @@ bg_color = Color(1, 0.192157, 0, 1)
 
 [node name="enemy" type="RigidBody2D"]
 collision_layer = 4
-collision_mask = 4
+collision_mask = 20
 mass = 0.01
 gravity_scale = 0.0
 lock_rotation = true
@@ -86,5 +86,12 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_wpk1a")
 rounded = true
 show_percentage = false
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="NavTimer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
 [connection signal="body_entered" from="hurtbox" to="." method="player_body_entered"]
 [connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
+[connection signal="timeout" from="NavTimer" to="." method="_on_nav_timer_timeout"]

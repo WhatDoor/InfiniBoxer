@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://jdu63i22p8me"]
+
+[ext_resource type="PackedScene" uid="uid://l8pquanc1uck" path="res://enemy.tscn" id="1_8bwbc"]
+
+[node name="green_slime" instance=ExtResource("1_8bwbc")]
