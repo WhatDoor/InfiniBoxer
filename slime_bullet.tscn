@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://64m2na1tdvxn"]
+
+[ext_resource type="Script" path="res://slime_bullet.gd" id="1_j28ih"]
+[ext_resource type="Texture2D" uid="uid://bf0uyh88ibhs7" path="res://free_monsters_0.png" id="1_mnusr"]
+[ext_resource type="Shader" path="res://slime_bullet.gdshader" id="2_f8dkl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ywv08"]
+shader = ExtResource("2_f8dkl")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6edav"]
+atlas = ExtResource("1_mnusr")
+region = Rect2(160, 224, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f26rr"]
+atlas = ExtResource("1_mnusr")
+region = Rect2(208, 224, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17dl4"]
+atlas = ExtResource("1_mnusr")
+region = Rect2(256, 224, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a3w8n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6edav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f26rr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17dl4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a6gqh"]
+radius = 6.0
+
+[node name="slime_bullet" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_j28ih")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_ywv08")
+sprite_frames = SubResource("SpriteFrames_a3w8n")
+autoplay = "default"
+frame_progress = 0.416714
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_a6gqh")
+
+[node name="AliveTimer" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="AliveTimer" to="." method="_on_alive_timer_timeout"]

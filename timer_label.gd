@@ -2,7 +2,7 @@ extends Label
 
 signal timeout
 
-var time = 300
+var time = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,11 +15,6 @@ func _process(_delta):
 
 
 func _on_timer_timeout():
-	time -= 1
+	time += 1
 	
-	if (time == 0):
-		set_text("You Win!")
-		$Timer.stop()
-		timeout.emit()
-	else:
-		set_text("Survive: " + String.num(time))
+	set_text("Survive: " + String.num(time))

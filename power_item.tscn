@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgpi024cnrraa"]
+[gd_scene load_steps=4 format=3 uid="uid://dgpi024cnrraa"]
 
 [ext_resource type="Script" path="res://power_item.gd" id="1_lb6jd"]
+[ext_resource type="AudioStream" uid="uid://ksarnqogh0bt" path="res://sounds/powerUp.wav" id="2_nf0mf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nga7j"]
 radius = 7.0
@@ -14,3 +15,6 @@ script = ExtResource("1_lb6jd")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_nga7j")
+
+[node name="power_up_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_nf0mf")

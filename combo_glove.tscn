@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2lrp2crp5qxh"]
+[gd_scene load_steps=6 format=3 uid="uid://c2lrp2crp5qxh"]
 
 [ext_resource type="PackedScene" uid="uid://ccc35dgq6vwxk" path="res://glove.tscn" id="1_4qddc"]
 [ext_resource type="Texture2D" uid="uid://f4b126my2lgf" path="res://sprites/combo_glove.png" id="2_27yvj"]
 [ext_resource type="Script" path="res://combo_glove.gd" id="2_jpynf"]
+[ext_resource type="AudioStream" uid="uid://c6nphj255k8im" path="res://sounds/combo_punch.wav" id="4_sknbf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_52n4j"]
 size = Vector2(15, 16)
@@ -16,3 +17,6 @@ texture = ExtResource("2_27yvj")
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_52n4j")
+
+[node name="Fire_Sound" parent="." index="2"]
+stream = ExtResource("4_sknbf")

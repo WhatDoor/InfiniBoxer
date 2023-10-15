@@ -1,25 +1,21 @@
-[gd_scene load_steps=12 format=3 uid="uid://wlwpi5y4b8eb"]
+[gd_scene load_steps=13 format=3 uid="uid://wlwpi5y4b8eb"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_c3sux"]
-[ext_resource type="Script" path="res://timer_label.gd" id="2_ndoar"]
 [ext_resource type="SpriteFrames" uid="uid://h12gvruhx67j" path="res://player_gloves.tres" id="3_b4afw"]
 [ext_resource type="Script" path="res://display_circle.gd" id="4_ap31q"]
+[ext_resource type="Texture2D" uid="uid://cpxykrmmr67do" path="res://sprites/shield.png" id="5_hdpwx"]
 [ext_resource type="Shader" path="res://player.gdshader" id="5_jfvbe"]
+[ext_resource type="Script" path="res://shield_sprite.gd" id="6_pjl0a"]
+[ext_resource type="AudioStream" uid="uid://b5uic2m3h33rt" path="res://sounds/dash.wav" id="7_3bjd6"]
+[ext_resource type="AudioStream" uid="uid://bvyd8g6xu1b0f" path="res://sounds/hitHurt_player.wav" id="8_af2ie"]
 
-[sub_resource type="SystemFont" id="SystemFont_hf522"]
-subpixel_positioning = 0
-
-[sub_resource type="LabelSettings" id="LabelSettings_j487a"]
-font = SubResource("SystemFont_hf522")
-font_size = 12
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5fsbd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pq6xe"]
 shader = ExtResource("5_jfvbe")
 shader_parameter/white_tint = 0.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_trudo"]
-radius = 4.545
-height = 14.0
+radius = 4.80667
+height = 15.6667
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m4i7b"]
 radius = 0.65
@@ -34,23 +30,17 @@ collision_layer = 17
 collision_mask = 18
 script = ExtResource("1_c3sux")
 
-[node name="Label" type="Label" parent="."]
-z_index = 10
-offset_left = -125.0
-offset_top = -83.0
-offset_right = -62.0
-offset_bottom = -57.0
-text = "Survive: 300"
-label_settings = SubResource("LabelSettings_j487a")
-script = ExtResource("2_ndoar")
-
-[node name="Timer" type="Timer" parent="Label"]
-autostart = true
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_5fsbd")
+material = SubResource("ShaderMaterial_pq6xe")
 sprite_frames = ExtResource("3_b4afw")
 animation = &"run_down"
+
+[node name="shield_sprite" type="Sprite2D" parent="."]
+texture = ExtResource("5_hdpwx")
+script = ExtResource("6_pjl0a")
+
+[node name="Timer" type="Timer" parent="shield_sprite"]
+wait_time = 10.0
 
 [node name="player_hurtbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3.36)
@@ -73,7 +63,7 @@ shape = SubResource("CapsuleShape2D_m4i7b")
 debug_color = Color(0.721569, 0, 0.286275, 0.419608)
 
 [node name="catch_area" type="Area2D" parent="."]
-collision_layer = 8
+collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="catch_area"]
@@ -84,8 +74,17 @@ script = ExtResource("4_ap31q")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[connection signal="timeout" from="Label" to="." method="_on_label_timeout"]
-[connection signal="timeout" from="Label/Timer" to="Label" method="_on_timer_timeout"]
+[node name="dash_reset" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="dash_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_3bjd6")
+
+[node name="hurt_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_af2ie")
+
+[connection signal="timeout" from="shield_sprite/Timer" to="shield_sprite" method="_on_timer_timeout"]
 [connection signal="area_entered" from="player_glove_receipt" to="." method="_on_player_glove_receipt_area_entered"]
 [connection signal="area_entered" from="catch_area" to="." method="_on_catch_glove_entered"]
 [connection signal="area_exited" from="catch_area" to="." method="_on_catch_glove_exited"]
+[connection signal="timeout" from="dash_reset" to="." method="_on_dash_reset_timeout"]

@@ -11,3 +11,5 @@ script = ExtResource("1_1ok1j")
 scale = Vector2(-1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Fire_Sound" type="AudioStreamPlayer" parent="."]

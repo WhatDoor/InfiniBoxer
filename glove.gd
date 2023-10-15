@@ -26,7 +26,7 @@ var enemy_ignore_list = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Fire_Sound.play()
 
 func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direction: Vector2, given_handedness: String):
 	player = given_player
@@ -69,11 +69,14 @@ func _physics_process(delta):
 func hit_an_enemy(enemy: RigidBody2D):
 	var ignored_enemy_id = enemy_ignore_list.find(enemy.get_instance_id())
 	
-	if (ignored_enemy_id == -1):
+	if (ignored_enemy_id == -1 && !enemy.dead):
 		momentum -= 1
 		enemy.take_damage(calculate_damage())
 		enemy.push_direction = get_parent().global_position.direction_to(enemy.position) * push_strength
 		enemy_ignore_list.append(enemy.get_instance_id())
+
+func hit_a_bullet(bullet: Area2D):
+	bullet.queue_free()
 
 func calculate_damage():
 	#The closer we are to max speed, the more damage we deal

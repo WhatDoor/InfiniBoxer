@@ -22,4 +22,6 @@ func _process(delta):
 	sprite.scale.x = current_x_scale
 
 func collected():
-	sprite.hide()
+	if (sprite.visible):
+		$power_up_sound.play()
+		sprite.hide()

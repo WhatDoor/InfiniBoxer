@@ -1,5 +1,9 @@
 extends Glove
 
+class_name Homing_Glove
+
+signal explode(position: Vector2, player_position: Vector2)
+
 var alive_time = 0
 var locked_enemy: RigidBody2D = null
 
@@ -12,14 +16,15 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	#new variables
 	max_speed = 805
 	ACCELERATION = 6.0
-	damage = 10
+	damage = 30
 	momentum = 1
-	push_strength = 2700
+	push_strength = 1000
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	#If the glove runs out of momentum OR reaches its max range
 	if (alive_time > 2000 || momentum <= 0):
+		explode.emit(global_position, get_parent().global_position)
 		queue_free()
 		
 	if (!locked_enemy):

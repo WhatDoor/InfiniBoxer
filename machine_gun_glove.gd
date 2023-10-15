@@ -10,9 +10,10 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	#new variables
 	max_speed = 805
 	ACCELERATION = 100.0
-	damage = 10
-	momentum = 1
-	push_strength = 2700
+	damage = 30
+	momentum = 3
+	push_strength = 7000
+	max_range = 250
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cq5rb5g8md38f"]
+[gd_scene load_steps=7 format=3 uid="uid://cq5rb5g8md38f"]
 
 [ext_resource type="PackedScene" uid="uid://ccc35dgq6vwxk" path="res://glove.tscn" id="1_tueu4"]
 [ext_resource type="Script" path="res://homing_glove.gd" id="2_tty2b"]
 [ext_resource type="Texture2D" uid="uid://cqesmqrmrk2sc" path="res://sprites/homing_glove.png" id="3_u7aa5"]
+[ext_resource type="AudioStream" uid="uid://d335s4cee6pom" path="res://sounds/homing_fire.wav" id="4_o57nt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o6qol"]
 size = Vector2(15, 16)
@@ -21,10 +22,15 @@ position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_o6qol")
 
 [node name="Detector" type="Area2D" parent="." index="2"]
+visible = false
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detector" index="0"]
 shape = SubResource("CircleShape2D_6oup8")
+
+[node name="Fire_Sound" parent="." index="3"]
+stream = ExtResource("4_o57nt")
+volume_db = -6.0
 
 [connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]

@@ -2,3 +2,7 @@
 .godot/
 
 *.tmp
+
+export/
+
+windows export/

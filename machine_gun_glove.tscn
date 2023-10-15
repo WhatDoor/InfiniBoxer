@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://d1cemijwmm8nw"]
+[gd_scene load_steps=8 format=3 uid="uid://d1cemijwmm8nw"]
 
 [ext_resource type="PackedScene" uid="uid://ccc35dgq6vwxk" path="res://glove.tscn" id="1_3xu1h"]
 [ext_resource type="Script" path="res://machine_gun_glove.gd" id="2_1ice2"]
 [ext_resource type="Texture2D" uid="uid://dvds1ahuea7qc" path="res://combo_glove.png" id="2_s37cx"]
 [ext_resource type="Shader" path="res://player.gdshader" id="3_vagu0"]
+[ext_resource type="AudioStream" uid="uid://b6i0et6lxummq" path="res://sounds/machine_gun.wav" id="5_mtx64"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ns1ds"]
 shader = ExtResource("3_vagu0")
@@ -13,7 +14,7 @@ shader_parameter/white_tint = -0.6
 size = Vector2(15, 16)
 
 [node name="machine_gun_glove" instance=ExtResource("1_3xu1h")]
-scale = Vector2(1.5, 1.5)
+scale = Vector2(3, 3)
 script = ExtResource("2_1ice2")
 
 [node name="default_sprite" parent="." index="0"]
@@ -24,3 +25,7 @@ texture = ExtResource("2_s37cx")
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_fespy")
+
+[node name="Fire_Sound" parent="." index="2"]
+stream = ExtResource("5_mtx64")
+volume_db = -6.0

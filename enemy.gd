@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+class_name Slime
+
 signal player_hit
 signal died(RigidBody2D)
 

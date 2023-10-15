@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-signal player_win
+signal player_died
 
-const screen_middle = Vector2(750, 500)
+var screen_middle = Vector2(DisplayServer.window_get_size()/2)
 
 @onready var _animated_sprite = $AnimatedSprite2D
 
@@ -35,6 +35,8 @@ var combo_list = []
 var dashing = false
 var dashing_speed = 100000.0
 var dash_frames = 0
+var available_dashes = 3
+@onready var dash_reset_timer = $dash_reset
 
 var machine_gunning = false
 var machine_gunning_time = 0
@@ -52,8 +54,11 @@ func _ready():
 	_animated_sprite.sprite_frames = glove_on_sprite_frame
 
 func _physics_process(delta):
+	#update screen size
+	screen_middle = Vector2(DisplayServer.window_get_size()/2)
+	
 	#machine gun logic
-	if (machine_gunning and machine_gunning_time - last_machine_gunning_time > 0.2):
+	if (machine_gunning and machine_gunning_time - last_machine_gunning_time > 0.1):
 		#print("firing")
 		last_hand_thrown = "right" if last_hand_thrown == "left" else "left"
 		fire_glove(last_hand_thrown, get_viewport().get_mouse_position(), "machine_gun", true)
@@ -164,6 +169,10 @@ func fire_glove(glove_handedness: String, target: Vector2, forced_glove_type: St
 	glove_node.z_index = 1
 	add_child(glove_node)
 	glove_node.connect("body_entered", Callable(glove_node, "hit_an_enemy"))
+	glove_node.connect("area_entered", Callable(glove_node, "hit_a_bullet"))
+	
+	if (glove_node is Homing_Glove):
+		glove_node.connect("explode", Callable(get_parent(), "create_explosion"))
 	
 	if (!forced_fire):
 		gloves_thrown[glove_handedness] = glove_node
@@ -180,12 +189,19 @@ func delete_glove_from_catch_list(glove: Area2D):
 	if (remove_index != -1):
 		gloves_in_catch_range.remove_at(remove_index)
 
+func hurt():
+	if (!dashing):
+		$hurt_sound.play()
+		if ($shield_sprite.visible):
+			$shield_sprite.hide()
+			$shield_sprite/Timer.start()
+		else:
+			player_died.emit()
+			queue_free()
+
 func _on_player_glove_receipt_area_entered(glove):
 	if (glove.returning):
 		glove.queue_free()
-
-func _on_label_timeout():
-	player_win.emit()
 
 func _on_catch_glove_entered(glove: Area2D):
 	if (glove.returning and glove.real):
@@ -221,8 +237,12 @@ func collect_current_combo(accum, current_string):
 	return accum + current_string
 
 func dash():
-	if (dash_boots_enabled):
+	if (dash_boots_enabled && available_dashes > 0):
+		$dash_sound.play()
 		dashing = true
+		available_dashes -= 1
+		if (!dash_reset_timer.time_left):
+			dash_reset_timer.start()
 		_animated_sprite.material.set("shader_parameter/white_tint", -0.2)
 		
 func machine_gun():
@@ -238,3 +258,10 @@ func homing_fire():
 		homing_firing_time = 0
 		last_homing_firing_time = -999
 		homing_firing_last_hand_thrown = "left"
+
+
+func _on_dash_reset_timeout():
+	available_dashes += 1
+	
+	if (available_dashes == 3):
+		dash_reset_timer.stop()
