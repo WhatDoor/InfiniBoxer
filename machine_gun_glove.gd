@@ -13,7 +13,7 @@ func init(given_player: CharacterBody2D, given_startingPOS: Vector2, given_direc
 	damage = 30
 	momentum = 3
 	push_strength = 7000
-	max_range = 250
+	max_range = 100
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
